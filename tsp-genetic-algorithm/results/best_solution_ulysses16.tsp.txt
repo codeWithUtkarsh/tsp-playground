@@ -1,0 +1,13 @@
+=== BEST SOLUTION FOR ulysses16.tsp ===
+Generated: 2025-05-24 16:16:58
+Nodes: 16
+===============================
+
+SOLUTION PATH:
+11 -> 9 -> 10 -> 6 -> 5 -> 15 -> 7 -> 12 -> 14 -> 13 -> 16 -> 2 -> 3 -> 4 -> 8 -> 1 -> 11 (return to start)
+
+SOLUTION QUALITY:
+Found Distance: 7910.00
+Optimal Distance: 6859.00
+Gap from Optimal: 15.32%
+Fitness Value: 1.786671

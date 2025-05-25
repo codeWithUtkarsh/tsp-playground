@@ -1,0 +1,13 @@
+=== BEST SOLUTION FOR ulysses22.tsp ===
+Generated: 2025-05-24 16:18:49
+Nodes: 22
+===============================
+
+SOLUTION PATH:
+11 -> 9 -> 10 -> 5 -> 15 -> 7 -> 6 -> 12 -> 21 -> 20 -> 19 -> 13 -> 14 -> 8 -> 1 -> 18 -> 4 -> 2 -> 3 -> 17 -> 22 -> 16 -> 11 (return to start)
+
+SOLUTION QUALITY:
+Found Distance: 8622.00
+Optimal Distance: 7013.00
+Gap from Optimal: 22.94%
+Fitness Value: 1.550388

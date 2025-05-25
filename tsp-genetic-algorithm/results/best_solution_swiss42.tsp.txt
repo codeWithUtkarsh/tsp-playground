@@ -1,0 +1,13 @@
+=== BEST SOLUTION FOR swiss42.tsp ===
+Generated: 2025-05-24 16:16:42
+Nodes: 42
+===============================
+
+SOLUTION PATH:
+22 -> 41 -> 25 -> 23 -> 5 -> 14 -> 16 -> 17 -> 15 -> 38 -> 36 -> 37 -> 32 -> 21 -> 39 -> 40 -> 10 -> 42 -> 11 -> 30 -> 9 -> 28 -> 4 -> 19 -> 31 -> 34 -> 35 -> 33 -> 18 -> 8 -> 24 -> 1 -> 7 -> 13 -> 12 -> 26 -> 29 -> 3 -> 6 -> 27 -> 20 -> 2 -> 22 (return to start)
+
+SOLUTION QUALITY:
+Found Distance: 2564.00
+Optimal Distance: 1273.00
+Gap from Optimal: 101.41%
+Fitness Value: 4.140787
