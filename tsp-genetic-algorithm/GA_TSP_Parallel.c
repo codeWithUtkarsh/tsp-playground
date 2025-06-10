@@ -28,10 +28,12 @@ Chromosome * population;
 
 //Prints the fitness value and the path of a chromosome
 void print_chromosome(Chromosome *ptr_chromosome){
+#ifdef DEBUG
     printf("\nFitness = %f\t, Genes = ", ptr_chromosome->fitness);
     for (int i = 0; i < chromo_length; i++)
         printf("%d_", ptr_chromosome->genes[i]);
     printf("\n");
+#endif
 }
 
 //Prints chromosome values for all the members of the population
@@ -88,12 +90,15 @@ float get_distance(City city1, City city2){
 
 //Prints the distance matrix between cities
 void print_dist_matrix(){
+#ifdef DEBUG
     printf("\n\t");
     for (int i = 0; i < chromo_length; ++i){
         printf("\n|%d|\t", i);
         for (int j = 0; j < chromo_length; j++)
             printf("(%d,%d) = %.4f\t",i,j, dist_matrix[i][j]);
     }
+    printf("\n");
+#endif
 }
 
 //Initialising distance matrix after reading from file
@@ -203,10 +208,12 @@ void selection(Chromosome *pop){
 
 //Prints fitness value for all the chromosome 
 void print_fitness(){
+#ifdef DEBUG
     printf("\n------------------------------------------------------Fitness-------------------------------------------\n");
     for(int i = 0; i < popl_size; i++)
         printf("%.3f - ",population[i].fitness);
     printf("\n------------------------------------------------------Fitness-------------------------------------------------\n");
+#endif
 }
 
 //Checking the percentage difference in two chromosomes
@@ -318,6 +325,8 @@ void main(int argc, char **argv){
     }
 
     double end= omp_get_wtime();
+#ifdef DEBUG
     printf("Time: \t %f \n", ((end-start)));
+#endif
     //print_population(population);
 }
