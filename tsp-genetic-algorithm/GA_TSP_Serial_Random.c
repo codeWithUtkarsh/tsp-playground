@@ -59,7 +59,9 @@ void create_results_directory() {
         #else
             mkdir(RESULTS_DIR, 0700);
         #endif
+#ifdef DEBUG
         printf("Created results directory: %s/\n", RESULTS_DIR);
+#endif
     }
 }
 
@@ -88,7 +90,9 @@ int get_instance_files(char filenames[][MAX_FILENAME], int max_files) {
         return 0;
     }
 
+#ifdef DEBUG
     printf("Scanning instances directory '%s'...\n", INSTANCES_DIR);
+#endif
 
     while((entry = readdir(dir)) != NULL && count < max_files) {
         // Skip hidden files and directories
@@ -97,13 +101,17 @@ int get_instance_files(char filenames[][MAX_FILENAME], int max_files) {
         // Check if it's a valid instance file
         if(is_valid_instance_file(entry->d_name)) {
             snprintf(filenames[count], MAX_FILENAME, "%s/%s", INSTANCES_DIR, entry->d_name);
+#ifdef DEBUG
             printf("  Found: %s\n", entry->d_name);
+#endif
             count++;
         }
     }
 
     closedir(dir);
+#ifdef DEBUG
     printf("Found %d instance files.\n\n", count);
+#endif
     return count;
 }
 float random_float() {
@@ -181,7 +189,9 @@ int read_instance_file(const char* filename, InstanceData* instance) {
     for(int i = 0; i < instance->num_nodes; i++) {
         for(int j = 0; j < instance->num_nodes; j++) {
             if(fscanf(fp, "%f", &instance->matrix[i][j]) != 1) {
+#ifdef DEBUG
                 printf("Error: Cannot read matrix element [%d][%d]\n", i, j);
+#endif
                 cleanup_instance_data(instance);
                 fclose(fp);
                 return 0;
@@ -198,8 +208,10 @@ int read_instance_file(const char* filename, InstanceData* instance) {
     }
 
     fclose(fp);
+#ifdef DEBUG
     printf("Successfully loaded instance: %s (%d nodes, optimal: %.0f)\n",
            instance->name, instance->num_nodes, instance->optimal_value);
+#endif
     return 1;
 }
 
@@ -248,6 +260,7 @@ void init_dist_matrix_from_instance(InstanceData* instance) {
 
 //Print distance matrix (for debugging small instances)
 void print_dist_matrix() {
+#ifdef DEBUG
     printf("\nDistance Matrix:\n");
     printf("     ");
     for (int j = 0; j < chromo_length; j++)
@@ -261,6 +274,7 @@ void print_dist_matrix() {
         printf("\n");
     }
     printf("\n");
+#endif
 }
 
 //Calculates fitness value for each chromosome
@@ -483,6 +497,7 @@ void init_population(int size) {
 
 //Print best solution with path
 void print_best_solution(Chromosome *population, const char* instance_name, float optimal) {
+#ifdef DEBUG
     printf("\n=== BEST SOLUTION FOR %s ===\n", instance_name);
     printf("Best Path: ");
     for(int i = 0; i < chromo_length; i++) {
@@ -499,6 +514,7 @@ void print_best_solution(Chromosome *population, const char* instance_name, floa
     printf("Gap from Optimal: %.2f%%\n", gap);
     printf("Fitness Value: %.6f\n", population[0].fitness);
     printf("===============================\n");
+#endif
 }
 
 //Run genetic algorithm for given instance
@@ -661,9 +677,10 @@ void print_usage(const char* program_name) {
 
 //Print comprehensive summary for all instances
 void print_all_instances_summary(TestResult *results, int total_results) {
+#ifdef DEBUG
     printf("\n=== ALL INSTANCES COMPREHENSIVE SUMMARY ===\n");
     printf("%-15s %-6s %-4s %-10s %-10s %-10s %-8s %-8s\n",
-           "Instance", "Number of vertices", "Run", "Time(s)", "Found", "Optimal", "Gap%%", "Conv");
+           "Instance", "Number of vertices", "Run", "Time(s)", "Found", "Optimal", "Gap%", "Conv");
     printf("---------------------------------------------------------------------------------\n");
 
     for(int i = 0; i < total_results; i++) {
@@ -697,7 +714,7 @@ void print_all_instances_summary(TestResult *results, int total_results) {
     }
 
     printf("%-15s %-6s %-10s %-10s %-8s %-8s %-8s\n",
-           "Instance", "Number of vertices", "Avg.Time", "Avg.Found", "Optimal", "Avg.Gap%%", "Success");
+           "Instance", "Number of vertices", "Avg.Time", "Avg.Found", "Optimal", "Avg.Gap%", "Success");
     printf("------------------------------------------------------------------------\n");
 
     for(int inst = 0; inst < unique_count; inst++) {
@@ -728,11 +745,13 @@ void print_all_instances_summary(TestResult *results, int total_results) {
                    avg_gap/total_runs, success_runs, total_runs);
         }
     }
+#endif
 }
 void print_instance_summary_table(TestResult *results, int total_results) {
+#ifdef DEBUG
     printf("\n=== INSTANCE RESULTS SUMMARY ===\n");
     printf("%-12s %-6s %-4s %-12s %-12s %-12s %-12s %-10s\n",
-           "Instance", "Number of vertices", "Run", "Time(s)", "Distance", "Optimal", "Gap%%", "Conv.Gen");
+           "Instance", "Number of vertices", "Run", "Time(s)", "Distance", "Optimal", "Gap%", "Conv.Gen");
     printf("--------------------------------------------------------------------------------------\n");
 
     for(int i = 0; i < total_results; i++) {
@@ -762,10 +781,12 @@ void print_instance_summary_table(TestResult *results, int total_results) {
                "AVERAGE", "", "", avg_time/total_results, avg_distance/total_results,
                "", avg_gap/total_results, avg_conv/total_results);
     }
+#endif
 }
 
 //Print summary table for random graphs
 void print_summary_table(TestResult *results, int total_results) {
+#ifdef DEBUG
     printf("\n=== COMPREHENSIVE RESULTS SUMMARY ===\n");
     printf("%-6s %-4s %-12s %-12s %-12s %-12s\n",
            "Number of vertices", "Run", "Time(s)", "Distance", "Fitness", "Conv.Gen");
@@ -807,6 +828,7 @@ void print_summary_table(TestResult *results, int total_results) {
                    avg_fitness/count, avg_conv/count);
         }
     }
+#endif
 }
 
 //Save results to CSV file in results directory
@@ -818,7 +840,9 @@ void save_results_to_csv(TestResult *results, int total_results, const char* fil
 
     FILE *fp = fopen(full_path, "w");
     if(fp == NULL) {
+#ifdef DEBUG
         printf("Could not create CSV file %s\n", full_path);
+#endif
         return;
     }
 
@@ -832,7 +856,9 @@ void save_results_to_csv(TestResult *results, int total_results, const char* fil
     }
 
     fclose(fp);
+#ifdef DEBUG
     printf("\nResults saved to '%s'\n", full_path);
+#endif
 }
 
 //Save detailed summary report to text file
@@ -844,7 +870,9 @@ void save_summary_report(TestResult *results, int total_results, const char* fil
 
     FILE *fp = fopen(full_path, "w");
     if(fp == NULL) {
+#ifdef DEBUG
         printf("Could not create summary report %s\n", full_path);
+#endif
         return;
     }
 
@@ -962,7 +990,9 @@ void save_summary_report(TestResult *results, int total_results, const char* fil
     }
 
     fclose(fp);
-    printf("Summary report saved to '%s'\n", full_path);
+#ifdef DEBUG
+    printf("\nSummary report saved to '%s'\n", full_path);
+#endif
 }
 
 //Save best solution details to file
@@ -974,7 +1004,7 @@ void save_best_solution(Chromosome *chromosome, const char* instance_name, float
 
     FILE *fp = fopen(filename, "w");
     if(fp == NULL) {
-        printf("Could not create solution file %s\n", filename);
+        printf("Error: Could not create best solution file %s\n", filename);
         return;
     }
 
@@ -1010,7 +1040,9 @@ void save_best_solution(Chromosome *chromosome, const char* instance_name, float
     fprintf(fp, "Fitness Value: %.6f\n", chromosome->fitness);
 
     fclose(fp);
+#ifdef DEBUG
     printf("Best solution saved to '%s'\n", filename);
+#endif
 }
 
 int main(int argc, char **argv){
@@ -1035,8 +1067,10 @@ int main(int argc, char **argv){
             printf("Testing with %d nodes:\n", nodes);
 
             for(int run = 1; run <= NUM_RUNS; run++) {
-                printf("  Run %d/%d... ", run, NUM_RUNS);
+#ifdef DEBUG
+                printf("  Run %d/%d...", run, NUM_RUNS);
                 fflush(stdout);
+#endif
 
                 TestResult result = run_genetic_algorithm_random(nodes, run);
                 results[result_index++] = result;
@@ -1110,8 +1144,10 @@ int main(int argc, char **argv){
             // Run algorithm multiple times for this instance
             printf("Running %d iterations:\n", num_runs);
             for(int run = 1; run <= num_runs; run++) {
-                printf("  Run %d/%d... ", run, num_runs);
+#ifdef DEBUG
+                printf("  Run %d/%d...", run, num_runs);
                 fflush(stdout);
+#endif
 
                 TestResult result = run_genetic_algorithm_instance(&instance, run);
                 all_results[result_index++] = result;
@@ -1156,7 +1192,11 @@ int main(int argc, char **argv){
             }
 
             cleanup_instance_data(&instance);
-            printf("\n" + (file_idx < num_files - 1 ? 0 : 1)); // Extra newline except for last
+            if(file_idx < num_files - 1) {
+                printf("\n");
+            } else {
+                printf("\n\n");
+            }
         }
 
         // Print comprehensive summary for all instances
