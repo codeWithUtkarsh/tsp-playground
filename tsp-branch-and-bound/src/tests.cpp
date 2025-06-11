@@ -35,29 +35,28 @@ void Tests::randomInstanceTest(int minSize, int maxSize, int iterCountPerInstanc
     FileUtils::writeRandomInstanceTestHeader(outputPath);
     Timer timer;
     GraphMatrix *graph;
-    printf("%i, %i\n", iterCountPerInstance, instanceCountPerSize);
+    printf("Iteration Per Instance %i, No of Instance %i\n", iterCountPerInstance, instanceCountPerSize);
 
     for (int vertexCount = minSize; vertexCount <= maxSize; vertexCount++)
     {
         srand(1);
-        // Average time for all instances of this size
-        long unsigned averageTime = 0;
-        for (int i = 0; i < instanceCountPerSize; ++i)
+        for (int i = 1; i <= instanceCountPerSize; ++i)
         {
             graph = graphGenerator::getRandom(vertexCount, 10);
 
-            for (int j = 0; j < iterCountPerInstance; ++j)
+            long unsigned totalTime = 0;
+            for (int j = 1; j <= iterCountPerInstance; ++j)
             {
+                std::string identifier = "sample_" + std::to_string(vertexCount) + "_" + std::to_string(i) + "_" + std::to_string(j);
                 timer.start();
                 BranchAndBound::execute(graph, startingVertex);
 
-                averageTime += timer.getElapsedNs();
+                long unsigned execution_time_for_sample = timer.getElapsedNs();
+                FileUtils::appendRandomInstanceTestResult(outputPath, identifier, vertexCount, j, execution_time_for_sample);
             }
             delete graph;
             graph = NULL;
         }
-        averageTime /= iterCountPerInstance * instanceCountPerSize;
-        FileUtils::appendRandomInstanceTestResult(outputPath, vertexCount, averageTime);
     }
     printf("Done. Saved to file.\n");
 }

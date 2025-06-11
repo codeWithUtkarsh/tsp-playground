@@ -43,7 +43,7 @@ void FileUtils::writeInstanceTestHeader(std::string filePath)
     if (!fout)
         return;
 
-    fout << "instance, execution time [ns], path, path weight, is correct\n";
+    fout << "Sample_Name, Sample_Execution_Time_ns, Path, Path_Weight, Is_Correct\n";
     fout.close();
 }
 
@@ -70,7 +70,7 @@ void FileUtils::appendTestResult(std::string filePath, TestResult testResult)
     ofs.close();
 }
 
-void FileUtils::appendRandomInstanceTestResult(std::string filePath, int vertexCount, unsigned long elapsedTime)
+void FileUtils::appendRandomInstanceTestResult(std::string filePath, std::string identifier,  int vertexCount, int iteration, unsigned long sampleExecutionTime)
 {
     std::ofstream ofs;
 
@@ -79,9 +79,13 @@ void FileUtils::appendRandomInstanceTestResult(std::string filePath, int vertexC
     if (!ofs)
         return;
 
-    ofs << vertexCount
+    ofs << identifier
         << ", "
-        << elapsedTime
+        << vertexCount
+        << ", "
+        << iteration
+        << ", "
+        << sampleExecutionTime
         << "\n";
 
     ofs.close();
@@ -94,7 +98,7 @@ void FileUtils::writeRandomInstanceTestHeader(std::string filePath)
     if (!fout)
         return;
 
-    fout << "Number of vertices, execution time [ns]\n";
+    fout << "Sample_Name, No_of_Nodes, Iteration, Sample_Execution_Time_ns\n";
     fout.close();
 }
 

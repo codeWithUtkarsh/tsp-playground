@@ -34,7 +34,7 @@ public:
      */
     static void appendTestResult(std::string filePath, TestResult testResult);
 
-    static void appendRandomInstanceTestResult(std::string filePath, int vertexCount, unsigned long elapsedTime);
+    static void appendRandomInstanceTestResult(std::string filePath, std::string identifier,  int vertexCount, int iteration, unsigned long sampleExecutionTime);
     static void writeRandomInstanceTestHeader(std::string filePath);
 
     /**

@@ -72,7 +72,7 @@ void fileInstanceTest()
             return;
         }
         printf("Graph read from file:\n");
-        graph->display();
+        // graph->display(); // Uncomment it to display the graph
 
         Tests::fileInstanceTest(graph, iterCount, instanceName, outputFilePath);
 
